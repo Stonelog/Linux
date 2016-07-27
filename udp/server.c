@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <sys/types.h>      
+#include <sys/socket.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <pthread.h>
+
+#define _SIZE_ 1024
+#define _PORT_ 8080
+#define _IP_ "127.0.0.1"
+
+int main()
+{
+	int sock = socket(AF_INET,SOCK_DGRAM,0);
+	if (sock < 0)
+	{
+		perror("socket");
+		return 1;
+	}
+	
+	struct sockaddr_in local;
+	local.sin_family = AF_INET;
+	local.sin_port = htons(_PORT_);
+	local.sin_addr.s_addr = inet_addr(_IP_);
+
+	socklen_t addrlen = sizeof(local);
+
+	if (bind(sock,(struct sockaddr *)&local,addrlen) <  0)
+	{
+		perror("bind");
+		return 2;
+	}
+
+	struct sockaddr_in client;
+	socklen_t len = sizeof(client);
+
+	char buf[_SIZE_];
+
+	while(1)
+	{
+		memset(buf,'\0',sizeof(buf));
+	
+		ssize_t ret = recvfrom(sock, buf, sizeof(buf)-1, 0, (struct sockaddr *)&client, &len);
+		if (ret > 0)
+		{
+			printf("client :%s \n",buf);
+			fflush(stdout);
+	
+			sendto( sock, buf, strlen(buf) , 0, (struct sockaddr*)&client , len );
+		}
+		else 
+		{
+			perror("recvfrom");
+			return 3;
+		}
+	}
+
+	close(sock);
+
+	return 0;
+}
+
+
