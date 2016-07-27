@@ -11,8 +11,19 @@
 #define _PORT_ 8080
 #define _IP_ "127.0.0.1"
 
-int main()
+void print(const char *argv)
 {
+	printf("Usage: %s [IP] [PORT] \n",argv);
+}
+
+int main(int argc, char *argv[])
+{
+	if(argc != 3)
+	{
+		print(argv[0]);
+		return -1;
+	}
+
 	int sock = socket(AF_INET,SOCK_DGRAM,0);
 	if (sock < 0)
 	{
@@ -22,8 +33,8 @@ int main()
 	
 	struct sockaddr_in server;
 	server.sin_family = AF_INET;
-	server.sin_port = htons(_PORT_);
-	server.sin_addr.s_addr = inet_addr(_IP_);
+	server.sin_port = htons(atoi(argv[2]));
+	server.sin_addr.s_addr = inet_addr(argv[1]);
 
 	socklen_t addrlen = sizeof(server);
 
