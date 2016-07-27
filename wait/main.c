@@ -7,6 +7,7 @@
 int main()
 {
 	pid_t pid;
+
 	pid = fork();
 
 	if (pid < 0 )
@@ -45,3 +46,6 @@ int main()
 
 	return 0;
 }
+
+
+
