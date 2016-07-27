@@ -15,7 +15,6 @@ void Proc()
 
 		Buf[i] = '=';
 		++i;
-
 		usleep(60000);
 	}
 
