@@ -4,7 +4,6 @@
 int main()
 {
     Proc();
-
 	return 0;
 }
 

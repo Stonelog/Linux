@@ -5,7 +5,7 @@ void Proc()
 	char Buf[102];
 	int i = 0;
 	memset(Buf,'\0', sizeof(Buf));
-	char ch[]="|/_\\";
+	char ch[]="|/-\\";
 
 	while( i < 101)
 	{
