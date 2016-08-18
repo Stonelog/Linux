@@ -1,0 +1,18 @@
+CLI=client
+SER=server
+CC=gcc
+
+.PHONY:all
+all: $(CLI) $(SER)
+
+$(CLI):client.c comm.c
+	gcc -o $@ $^
+$(SER):server.c comm.c
+	gcc -o $@ $^
+
+#%.o:$(shell pwd)/%.c
+#	gcc -c $<
+
+.PHONY:clean
+clean:
+	rm -f client server 
